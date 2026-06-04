@@ -1,104 +1,53 @@
-# React + TypeScript + Vite
+# Weather AI Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive weather dashboard built with React + Vite + TypeScript and Tailwind CSS. The app uses the Weather AI API (https://api.weather-ai.co/v1) for forecasts and an OpenStreetMap Nominatim geocoding service for place search.
 
-Currently, two official plugins are available:
+Live demo: (add your deployed URL here)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Why Nominatim (OpenStreetMap)
+- The Weather API provides weather forecasts for coordinates (lat/lon) but it doesn't provide a place search UI.
+- I added Nominatim (`https://nominatim.openstreetmap.org/search`) to convert typed place names into coordinates and human-readable `display_name` values used by the UI and when saving favorites.
+- Nominatim is free, simple, and well-suited for client-side geocoding when you need decent place names without a paid geocoding service.
 
-## React Compiler
+## Weather AI endpoints used
+- `GET /v1/forecast` — primary forecast endpoint used to fetch `current`, `hourly`, and `daily` data for specific coordinates.
+- `GET /v1/weather-geo` — IP-based endpoint used on app mount to detect the user's approximate location and display a detected-location banner. 
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Note: Requests to the Weather AI API require an API key. Set `VITE_WEATHER_API_KEY` in your `.env` file when running locally.
 
-## Expanding the ESLint configuration
+## Features
+- Place search with debounced autocomplete (Nominatim)
+- IP-based geo detection fallback (`/v1/weather-geo`) on first load
+- Current weather card 
+- Hourly SVG temperature chart
+- 7-day forecast grid
+- Saveable favorites (persisted to `localStorage`) with dedupe by name or coordinates
+- Unit toggle (°C / °F)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech stack
+- Vite + React + TypeScript
+- Tailwind CSS for styling
+- axios for HTTP requests
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-## Weather Dashboard (this project)
-
-This repo is a small weather dashboard that consumes the Weather AI API. It includes a responsive dashboard, hourly chart, unit toggle, and favorites stored in `localStorage`.
-
-Setup:
-
-1. Copy your API key into a `.env` file at the project root:
-
-```
-VITE_WEATHER_API_KEY=your_api_key_here
-```
-
-2. Install and run locally:
+## Local setup
+1. Clone the repository and install dependencies:
 
 ```bash
+git clone https://github.com/jmdotdev/weather-ai-dashboard.git
+cd weather-dashboard
 npm install
+```
+
+2. Add your Weather AI API key in a `.env` file at the project root 
+```
+VITE_WEATHER_API_KEY=your_api_key
+```
+
+3. Run the dev server:
+
+```bash
 npm run dev
 ```
 
-3. Build for production:
-
-```bash
-npm run build
-npm run preview
-```
-
-Notes:
-- The app uses the environment variable `VITE_WEATHER_API_KEY` to call the Weather API.
-- Deploy to Netlify / Vercel / Render by setting the same environment variable in the hosting settings.
-# weather-ai-dashboard
+## Deployment
+- Ensure the `VITE_WEATHER_API_KEY` environment variable is configured in vercel.
