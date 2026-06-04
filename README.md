@@ -53,7 +53,7 @@ npm run dev
 ### Vercel production setup (proxy + secure key)
 To avoid CORS and keep your Weather AI key secret in production, the project provides small serverless proxy functions under the `/api` folder. Follow these steps:
 
-1. In the Vercel dashboard for your project, add the following Environment Variables (Production scope):
+1. In the Vercel dashboard for your project, add the following Environment Variables:
 
 	- `WEATHER_API_KEY` = your Weather AI secret (used server-side by the proxies)
 	- `VITE_USE_PROXY` = `1` (tells the built client to call `/api/*` instead of the upstream host)
@@ -62,4 +62,4 @@ To avoid CORS and keep your Weather AI key secret in production, the project pro
 
 3. After deployment, the client will call `/api/forecast` and `/api/weather-geo` in production. The serverless functions make server-to-server requests to Weather AI, and the API key remains on the server.
 
-4. (Optional) For local development you can keep using `VITE_WEATHER_API_KEY` in your `.env` file. The `VITE_USE_PROXY` switch ensures local dev behavior remains unchanged.
+4. For local development you can keep using `VITE_WEATHER_API_KEY` in your `.env` file. The `VITE_USE_PROXY` switch ensures local dev behavior remains unchanged.
