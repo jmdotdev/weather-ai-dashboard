@@ -50,8 +50,6 @@ npm run dev
 ```
 
 ## Deployment
-- Ensure the `VITE_WEATHER_API_KEY` environment variable is configured locally for local builds.
-
 ### Vercel production setup (proxy + secure key)
 To avoid CORS and keep your Weather AI key secret in production, the project provides small serverless proxy functions under the `/api` folder. Follow these steps:
 
