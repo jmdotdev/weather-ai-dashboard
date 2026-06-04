@@ -2,7 +2,7 @@
 
 A modern, responsive weather dashboard built with React + Vite + TypeScript and Tailwind CSS. The app uses the Weather AI API (https://api.weather-ai.co/v1) for forecasts and an OpenStreetMap Nominatim geocoding service for place search.
 
-Live demo: (add your deployed URL here)
+Live demo: https://weather-ai-dashboard-weld.vercel.app/
 
 ## Why Nominatim (OpenStreetMap)
 - The Weather API provides weather forecasts for coordinates (lat/lon) but it doesn't provide a place search UI.
