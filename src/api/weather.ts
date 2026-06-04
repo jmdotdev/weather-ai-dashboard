@@ -3,6 +3,7 @@ import type { WeatherResponse, WeatherGeoResult, Units } from "../types/weather"
 
 const BASE_URL = "https://api.weather-ai.co/v1";
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+const USE_PROXY = import.meta.env.VITE_USE_PROXY === "1";
 
 export async function getWeather(
   lat: number,
@@ -11,7 +12,9 @@ export async function getWeather(
 ): Promise<WeatherResponse> {
   const { days = 7, ai = true, units = "metric", lang = "en" } = options ?? {};
 
-  const res = await axios.get(`${BASE_URL}/forecast`, {
+  const url = USE_PROXY ? `/api/forecast` : `${BASE_URL}/forecast`;
+
+  const res = await axios.get(url, {
     params: {
       lat,
       lon,
@@ -20,9 +23,11 @@ export async function getWeather(
       units,
       lang,
     },
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-    },
+    headers: USE_PROXY
+      ? {}
+      : {
+          Authorization: `Bearer ${API_KEY}`,
+        },
   });
 
   return res.data as WeatherResponse;
@@ -33,7 +38,9 @@ export async function getWeatherGeo(
 ): Promise<WeatherGeoResult> {
   const { ip = "auto", lat, lon, days = 7, ai = true, units = "metric" } = opts ?? {};
 
-  const res = await axios.get(`${BASE_URL}/weather-geo`, {
+  const url = USE_PROXY ? `/api/weather-geo` : `${BASE_URL}/weather-geo`;
+
+  const res = await axios.get(url, {
     params: {
       ip,
       lat,
@@ -42,9 +49,11 @@ export async function getWeatherGeo(
       ai,
       units,
     },
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-    },
+    headers: USE_PROXY
+      ? {}
+      : {
+          Authorization: `Bearer ${API_KEY}`,
+        },
   });
 
   const headers = res.headers || {};
